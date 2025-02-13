@@ -1,6 +1,16 @@
 #include<bits/stdc++.h>
 using namespace std;
-
+void search(vector<int>&arr,int i,int n,int key){
+    
+    for(int p = i;p<=n;p++){
+        if(arr[p] == key){
+            cout<<endl<<"key found ";
+            return;
+        }
+    }
+    cout<<endl<<"key not found ";
+    return;
+}
 int main(){
     int t;
     cout<<"enter the number of test cases = ";cin>>t;
@@ -13,28 +23,37 @@ int main(){
             arr.push_back(a);
         }
         cout<<endl<<"enter key for searching = ";cin>>key;
-        int check = 0;
-        int p;
-        for(p = 0;p<n;p=p+2){      
-            if (arr[p]>key){
-                break;
-            }                
-            }
-        for(int i = 0;i<p;i++){
-            if(arr[i]== key){
-                check++;
-                cout<<endl<<"key is found ";
-                break;
-            }
+        if(arr[0]>key){
+            cout<<endl<<"key not found";
+            return 0;
         }
-            if(check == 0){
-                cout<<endl<<"key is not found";
+        
+        for(int i = -1;i<n;i++){
+            int curr = pow(2,i);
+            int next = pow(2,i+1);
+            if(arr[curr] == key){
+                cout<<endl<<"found";
+                break;
             }
+          
+            else if(arr[curr]>key && curr==0){
+                cout<<"not found";
+                break;
+            }
+            else if(arr[curr]<key && arr[next]<key){
+                continue;
+            }
+            else if(arr[curr]<key && key<arr[next]){
+                search(arr,curr,next,key);
+                break;
+            }
+            else if(next>n && arr[curr]<key){
+                search(arr,curr,n-1,key);
+                break;
+            }
+
+        }
             t--;
         }
-           
-        
-     
-    
     return 0;
 }
